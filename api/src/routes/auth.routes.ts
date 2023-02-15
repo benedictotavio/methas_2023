@@ -1,8 +1,9 @@
 import express from "express";
 import {
   createSessionHandler,
-  // refreshAccessTokenHandler,
+  refreshAccessTokenHandler,
 } from "../controllers/auth.controller";
+import requireUser from "../middlewares/requireUser";
 import validateResource from "../middlewares/validateResource";
 import { createSessionSchema } from "../schema/auth.schema";
 
@@ -14,6 +15,6 @@ router.post(
   createSessionHandler
 );
 
-// router.post("/api/sessions/refresh", refreshAccessTokenHandler);
+router.post("/api/sessions/refresh", requireUser, refreshAccessTokenHandler);
 
 export default router;

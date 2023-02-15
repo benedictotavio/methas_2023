@@ -7,31 +7,27 @@ export function signJwt(
   options?: jwt.SignOptions | undefined
 ) {
 
-  const signingKey = Buffer.from(config.get<string>(keyName), "base64").toString("ascii")
+  const privateKey = Buffer.from(config.get<string>(keyName), "base64").toString("ascii")
 
-  console.log("signingKey = ")
-  console.log(signingKey)
-
-
-
-  return jwt.sign(object, signingKey, {
+  return jwt.sign(object, privateKey, {
     expiresIn: "15m",
-    algorithm: "RS256"
+    algorithm: 'RS256'
   });
 }
 
 export function verifyJwt<T>(
-  token: string,
-  keyName: "accessTokenPublicKey" | "refreshTokenPublicKey"
-): T | object {
+  token: string | undefined,
+  keyName: "accessTokenPublicKey" | "refreshTokenPublicKey",
+): object | T | undefined {
+
   const publicKey = Buffer.from(config.get<string>(keyName), "base64").toString("ascii");
 
-  console.log('publicKey = ' + publicKey);
-
   try {
-    const decoded = jwt.verify(token, publicKey) as T;
+    const decoded = jwt.verify(token, publicKey, {
+      algorithms: ['RS256']
+    }) as T;
     return decoded;
   } catch (e) {
-    return { message: "O Token é inválido!" }
+    return { e };
   }
 }

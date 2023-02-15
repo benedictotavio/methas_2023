@@ -1,7 +1,8 @@
 import { DocumentType } from "@typegoose/typegoose";
 import { Request, Response } from "express";
 import { get } from "lodash";
-import  {User}  from "../models/user.model";
+import { Session } from "../models/session.model";
+import { User } from "../models/user.model";
 import { CreateSessionInput } from "../schema/auth.schema";
 import {
   findSessionById,
@@ -30,7 +31,6 @@ export async function createSessionHandler(
 
   const isValid = await user.validatePassword(password);
 
-  console.log(isValid)
   if (!isValid) {
     return res.send(message);
   }
@@ -42,38 +42,38 @@ export async function createSessionHandler(
   const refreshToken = await signRefreshToken({ userId: user._id });
 
   // send the tokens
-
   return res.send({
     accessToken,
     refreshToken,
   });
 }
 
-// export async function refreshAccessTokenHandler(req: Request, res: Response) {
-//   const refreshToken = get(req, "headers.x-refresh");
+export async function refreshAccessTokenHandler(req: Request, res: Response) {
 
-//   const decoded = verifyJwt<{ session: string }>(
-//     refreshToken,
-//     "refreshTokenPublicKey"
-//   );
+  const refreshToken = get(req, "headers.x-refresh");
 
-//   if (!decoded) {
-//     return res.status(401).send("Could not refresh access token");
-//   }
+  const decoded = verifyJwt<{ session: string }>(
+    refreshToken,
+    "refreshTokenPublicKey"
+  );
 
-//   const session = await findSessionById(decoded.session);
+  if (!decoded) {
+    return res.status(401).send("Could not refresh access token");
+  }
 
-//   if (!session || !session.valid) {
-//     return res.status(401).send("Could not refresh access token");
-//   }
+  const session = await findSessionById(decoded.session);
 
-//   const user = await findUserById(String(session.user));
+  if (!session || !session.valid) {
+    return res.status(401).send("Could not refresh access token");
+  }
 
-//   if (!user) {
-//     return res.status(401).send("Could not refresh access token");
-//   }
+  const user = await findUserById(String(session.user));
 
-//   const accessToken = signAccessToken(user);
+  if (!user) {
+    return res.status(401).send("Could not refresh access token");
+  }
 
-//   return res.send({ accessToken });
-// }
+  const accessToken = signAccessToken(user);
+
+  return res.send({ accessToken });
+}
