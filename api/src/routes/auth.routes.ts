@@ -15,6 +15,6 @@ router.post(
   createSessionHandler
 );
 
-router.post("/api/sessions/refresh", requireUser, refreshAccessTokenHandler);
+router.post("/sessions/refresh", requireUser, refreshAccessTokenHandler);
 
 export default router;

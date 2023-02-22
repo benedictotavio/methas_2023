@@ -1,5 +1,14 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 0;
+  }
+  
 .todo{
     background-color: #EEEEEE;
     min-height: 72.2vh;
     margin: 0;
 }
+

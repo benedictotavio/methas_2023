@@ -1,19 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyJwt } from "../utils/jwt";
+
 const deserializeUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  
-  console.log(req.headers.authorization);
 
-  const accessToken = (req.headers.authorization || "").replace(
-    /^Bearer\s/,
-    ""
-  );
-  
-    console.log(accessToken)
+  const accessToken = (req.headers.authorization?.split(' ')[1])
 
   if (!accessToken) {
     return next();
@@ -21,13 +15,14 @@ const deserializeUser = async (
 
   const decoded = verifyJwt(accessToken, "accessTokenPublicKey");
 
-  console.log(decoded)
-
-  if (decoded === true) {
+  if (decoded) {
     res.locals.user = decoded;
+  } else {
+    res.status(404).send('User not logged')
   }
 
   return next();
+
 };
 
 export default deserializeUser;

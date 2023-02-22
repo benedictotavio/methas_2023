@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
-import Navbar from '../components/layout/Navbar'
+import * as React from 'react';
+import Navbar from '../components/layout/Navbar';
 
-export default class Settings extends Component {
-  render() {
-    return (
-      <div>
-       <Navbar/>
-      </div>
-    )
-  }
+export interface IAppProps {
+}
+
+export default function Settings(props: IAppProps) {
+  return (
+    <div>
+      <Navbar />
+    </div>
+  );
 }

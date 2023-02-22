@@ -61,6 +61,9 @@ import {
     @prop({ default: false })
     verified: boolean;
   
+    @prop({default:[]})
+    methas: string[]
+    
     async validatePassword(this: DocumentType<User>, candidatePassword: string) {
       try {
         return await argon2.verify(this.password, candidatePassword);

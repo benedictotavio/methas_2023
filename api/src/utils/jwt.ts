@@ -18,16 +18,17 @@ export function signJwt(
 export function verifyJwt<T>(
   token: string | undefined,
   keyName: "accessTokenPublicKey" | "refreshTokenPublicKey",
-): object | T | undefined {
+): object | T {
 
   const publicKey = Buffer.from(config.get<string>(keyName), "base64").toString("ascii");
+
 
   try {
     const decoded = jwt.verify(token, publicKey, {
       algorithms: ['RS256']
-    }) as T;
+    }) as T | object;
     return decoded;
-  } catch (e) {
-    return { e };
+  } catch (err) {
+    return { err };
   }
 }

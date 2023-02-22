@@ -1,0 +1,77 @@
+.container_add_task_card {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.btn_add_task_card {
+    margin: auto 25px;
+    border-radius: 35px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #dda15e;
+    width: 25%;
+    cursor: pointer;
+    transition: .65s;
+}
+
+.btn_add_task_card:hover {
+    background-color: aliceblue;
+    color: #dda15e;
+    transform: translate(20px);
+}
+.add_category h2{
+    margin: 15px auto;
+}
+.btn_add_task_card i>svg {
+    margin: auto 5px;
+    color: aliceblue;
+    font-size: 1.5em;
+}
+
+.card_modal_select_category {
+    width: 100%
+}
+
+.card_close {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.contaier_category_card {
+    display: flex;
+    justify-content: center;
+}
+
+.contaier_category_select{
+    width: 75%;
+    padding: 10px;
+    margin: 20px auto;
+    border: 2px solid black;
+    border-bottom-right-radius: 10px;
+}
+
+.card_category_selection_button {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px;
+}
+
+.card_category_selection_button button {
+    padding: 15px;
+    border-radius: 35px;
+    border: 0;
+    background-color: #f4a261;
+    color: aliceblue;
+    transition: .25s;
+}
+
+.card_category_selection_button button:hover{
+    background-color: #fff;
+    color: #f4a261;
+    transform: scale(1.1);
+    cursor: pointer;
+}

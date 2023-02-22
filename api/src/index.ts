@@ -1,6 +1,10 @@
 import dotenv from 'dotenv'
 dotenv.config()
+
+// 
+
 import express from 'express'
+import bodyParser from 'body-parser' 
 import config from 'config'
 import morgan from 'morgan'
 import routerMetha from './routes/methas.routes'
@@ -14,17 +18,18 @@ const app = express()
 
 app.use(express.json())
 
-// middlewares
-app.use(deserializeUser)
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(morgan('tiny'))
 
 const PORT = config.get('port') || 3030
 
+app.use(deserializeUser)
 
 app.use('/api/metha', routerMetha)
 app.use('/api/users', routerUser)
 app.use('/api/auth', routerAuth)
+
 
 app.listen(PORT, () => {
     try {

@@ -3,6 +3,6 @@ import express from 'express'
 
 const router = express.Router()
 
-router.post('/add', createMetha)
+router.post('/:id/add', createMetha)
 
 export default router

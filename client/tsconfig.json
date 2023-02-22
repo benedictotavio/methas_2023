@@ -1,12 +1,11 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@tsconfig/create-react-app/tsconfig.json",
-  "display": "Create React App",
-
-
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es5",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -21,10 +20,7 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-    "include": [
-        "src/**/*.ts",
-        "src/**/*.tsx",
-        "src/**/*.test.ts",
-        "src/**/*.test.tsx"
-    ]
+  "include": [
+    "src"
+  ]
 }

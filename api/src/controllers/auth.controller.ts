@@ -1,8 +1,5 @@
-import { DocumentType } from "@typegoose/typegoose";
 import { Request, Response } from "express";
 import { get } from "lodash";
-import { Session } from "../models/session.model";
-import { User } from "../models/user.model";
 import { CreateSessionInput } from "../schema/auth.schema";
 import {
   findSessionById,
@@ -17,7 +14,10 @@ export async function createSessionHandler(
   res: Response
 ) {
   const message = "Invalid email or password";
+
   const { email, password } = req.body;
+
+
 
   const user = await findUserByEmail(email);
 
@@ -50,12 +50,16 @@ export async function createSessionHandler(
 
 export async function refreshAccessTokenHandler(req: Request, res: Response) {
 
-  const refreshToken = get(req, "headers.x-refresh");
+  const refreshToken = get(req, "headers.x-refresh") as string;
 
-  const decoded = verifyJwt<{ session: string }>(
+  type Decoded = {
+    session: string
+  }
+
+  const decoded = verifyJwt(
     refreshToken,
     "refreshTokenPublicKey"
-  );
+  ) as Decoded;
 
   if (!decoded) {
     return res.status(401).send("Could not refresh access token");

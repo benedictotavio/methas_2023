@@ -21,7 +21,9 @@ export async function createUserHandler(
 ) {
     const body = req.body;
 
+
     try {
+
         const user = await createUser(body);
 
         await sendEmail({

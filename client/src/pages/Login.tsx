@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import LoginForm from '../components/layout/LoginForm'
+import LoginForm from '../components/forms/LoginForm'
 
-export default class Login extends Component {
-  render() {
-    return (
-      <div>
-        <LoginForm />
-      </div>
-    )
-  }
+export interface IAppProps {
+}
+
+export default function Login (props: IAppProps) {
+  return (
+    <div>
+       <LoginForm />
+    </div>
+  );
 }
