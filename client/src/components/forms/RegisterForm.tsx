@@ -18,13 +18,18 @@ export default function RegisterForm(props: IAppProps) {
 
     const handleSubmit = (e: { preventDefault: () => void; }) => {
         e.preventDefault()
-        register({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password,
-            passwordConfirmation: confirmPassword
-        })
+
+        try {
+            register({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                password: password,
+                passwordConfirmation: confirmPassword
+            })
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -41,22 +46,22 @@ export default function RegisterForm(props: IAppProps) {
             <form onSubmit={handleSubmit}>
                 <h3>Cadastre-se</h3>
 
-                <label htmlFor="password">Nome</label>
-                <input type="password" placeholder="Password" value={firstName} id="Nome" onChange={e => setFirstName(e.target.value)} />
+                <label htmlFor="fname"></label>
+                <input type="text" placeholder="Nome" value={firstName} id="Nome" onChange={e => setFirstName(e.target.value)} required/>
 
-                <label htmlFor="password">Sobrenome</label>
-                <input type="password" placeholder="Sobrenome" value={lastName} id="Sobrenome" onChange={e => setLastName(e.target.value)} />
+                <label htmlFor="lname"></label>
+                <input type="text" placeholder="Sobrenome" value={lastName} id="Sobrenome" onChange={e => setLastName(e.target.value)} required/>
 
-                <label htmlFor="username">E-Mail</label>
-                <input type="email" placeholder="E-mail" value={email} id="E-mail" onChange={e => setEmail(e.target.value)} />
+                <label htmlFor="email"></label>
+                <input type="email" placeholder="E-mail" value={email} id="E-mail" onChange={e => setEmail(e.target.value)} required/>
 
-                <label htmlFor="password">Senha</label>
-                <input type="password" placeholder="Senha" value={password} id="Senha" onChange={e => setPassword(e.target.value)} />
+                <label htmlFor="password"></label>
+                <input type="password" placeholder="Senha" value={password} id="pass" onChange={e => setPassword(e.target.value)} required autoComplete='on'/>
 
-                <label htmlFor="password">Confirmar senha</label>
-                <input type="password" placeholder="Confirme sua senha" value={confirmPassword} id="password" onChange={e => setConfirmPassword(e.target.value)} />
-                <input type="submit" value="Log in" />
+                <label htmlFor="password"></label>
+                <input type="password" placeholder="Confirme sua senha" value={confirmPassword} id="new-pass" onChange={e => setConfirmPassword(e.target.value)} required autoComplete='on' />
 
+                <input type="submit" value="Log in"/>
 
                 <div className={style.social}>
                     <div className={style.go}>
@@ -67,8 +72,8 @@ export default function RegisterForm(props: IAppProps) {
                     </div>
                     <div className={style.fb}>
                         <i>
+                            <BsFacebook />
                         </i>
-                        <BsFacebook />
                     </div>
                 </div>
             </form>

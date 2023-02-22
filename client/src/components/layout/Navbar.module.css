@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap');
+
 :after {
     content: "";
 }
@@ -42,13 +44,14 @@
 
 .nav_container nav ul {
     text-align: center;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 .nav_container nav ul li {
     position: relative;
     width: 80px;
     cursor: pointer;
-    background: #B7B78A;
+    background-color: #B7B78A;
     text-transform: uppercase;
     transition: all .4s ease-out;
 }
@@ -56,7 +59,10 @@
 .nav_container nav ul li:after {
     position: absolute;
     background: white;
-    color: #5C3D2E;
+    font-weight: 500;
+    font-size: 1.12em;
+    color: #B7B78A;
+    text-shadow: 1.5px 1.75px 1.5px black;
     top: 0;
     left: 70px;
     width: 80px;
@@ -67,12 +73,15 @@
     transition: all .4s ease-out;
 }
 
+.nav_container nav ul svg{
+    color: black;
+}
 .nav_container nav ul a li.home_icon:after {
     content: "Home";
     line-height: 88px;
 }
 
-.nav_container nav ul  li:nth-child(2):after {
+.nav_container nav ul  li.user:after {
     content: "User";
     line-height: 88px;
 }

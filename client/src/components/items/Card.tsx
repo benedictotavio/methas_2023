@@ -3,6 +3,16 @@ import style from './Card.module.css'
 import Modal from 'react-modal'
 import FormAddTask from '../forms/FormAddTask'
 import { GrClose } from 'react-icons/gr'
+import { MdAttachMoney, MdFamilyRestroom } from 'react-icons/md'
+import { CgGym } from 'react-icons/cg'
+
+
+export interface ICardProps {
+    text: string,
+    icon: 'money' | 'health' | 'family',
+    category: string,
+    colorIcon:string
+}
 
 const customStyles = {
     content: {
@@ -19,7 +29,7 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-const Card = () => {
+const Card = ({ text, icon, category,colorIcon}: ICardProps) => {
 
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
 
@@ -36,10 +46,10 @@ const Card = () => {
                 <div className={style.box}>
                     <div className={style.content}>
                         <h2>
-                            Icon
+                            {icon === 'money' ? <MdAttachMoney fontSize='1.75em' color={colorIcon}/> : icon === 'health' ? <CgGym fontSize='1.8em' color={colorIcon} /> : <MdFamilyRestroom fontSize='2em' color={colorIcon}/>}
                         </h2>
-                        <h3>Dinheiro</h3>
-                        <p>Faça o ano de {new Date().getFullYear()} ser o mais endireinhado da sua vida, hora de conseguir aquele dinheiro extra!</p>
+                        <h3>{category}</h3>
+                        <p>{text}</p>
                         <button onClick={openModal}>
                             Veja suas metas
                         </button>

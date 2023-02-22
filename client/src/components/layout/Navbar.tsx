@@ -1,4 +1,3 @@
-import React from 'react'
 import styles from './Navbar.module.css'
 import { BsHouseDoor } from 'react-icons/bs'
 import { SlUser, SlSettings, SlLogout } from 'react-icons/sl'
@@ -22,12 +21,14 @@ const Navbar = () => {
                                 </div>
                             </li>
                         </Link>
+                        <Link to='/user'>
+                            <li className={styles.user}>
+                                <div className="work-icon">
+                                    <SlUser />
+                                </div>
+                            </li>
+                        </Link>
 
-                        <li>
-                            <div className="work-icon">
-                                <SlUser />
-                            </div>
-                        </li>
                         <Link to='/config'>
                             <li className={styles.config}>
                                 <div>

@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 interface UserData {
-  data:object,
+  data: object,
   token: string
 }
+
+const URL = process.env.API_URL
 
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false)
@@ -25,17 +27,17 @@ export default function useAuth() {
   async function register(user: object) {
 
     let msgText = 'Cadastro realizado com sucesso!'
-    
+
     let msgType = 'success'
 
     try {
-      const data = await fetch('/api/users', {
+      const data = await fetch(URL + '/api/users', {
         method: 'POST',
         body: JSON.stringify(user)
       }).then((res) => res)
-      .catch(err => err) as UserData;
+        .catch(err => err) as UserData;
 
-      await authUser(data)
+      data ? await authUser(data) : window.alert('O Registro de usuário falhou!')
 
     } catch (error) {
       // tratar erro
@@ -49,7 +51,7 @@ export default function useAuth() {
     let msgType = 'success'
 
     try {
-      const data = await fetch('/api/auth/sessions', {
+      const data = await fetch(URL + '/api/auth/sessions', {
         method: 'POST',
         body: JSON.stringify(user)
       }).then((res) => res) as UserData;

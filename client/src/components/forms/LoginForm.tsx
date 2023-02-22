@@ -36,11 +36,11 @@ const LoginForm = () => {
             <form onSubmit={handleSubmit}>
                 <h3>Login</h3>
 
-                <label htmlFor="username">E-Mail</label>
-                <input type="email" placeholder="Email" value={email} id="email" onChange={e => setEmail(e.target.value)} />
+                <label htmlFor="username"></label>
+                <input type="email" placeholder="Email" value={email} id="email" onChange={e => setEmail(e.target.value)} required/>
 
-                <label htmlFor="password">Senha</label>
-                <input type="password" placeholder="Senha" value={password} id="password" onChange={e => setPassword(e.target.value)} />
+                <label htmlFor="password"></label>
+                <input type="password" placeholder="Senha" value={password} id="password" onChange={e => setPassword(e.target.value)} required/>
 
                 <div className={style.link_form}>
                     <Link to='/register'>

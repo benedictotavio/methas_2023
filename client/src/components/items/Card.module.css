@@ -1,7 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap');
+
+
+@media (max-width:900px) {
+  .card {
+    position: relative;
+    width: 600px;
+    height: 440px;
+    margin: 30px;
+    transition: 0.5s;
+    background-color: #fff;
+  }
+}
 
 .card {
   position: relative;
-  min-width: 50%;
+  width: 300px;
   height: 440px;
   box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
     inset -5px -5px 15px rgba(255, 255, 255, 0.1),
@@ -10,11 +23,6 @@
   margin: 30px;
   transition: 0.5s;
   background-color: #fff;
-}
-
-.card:nth-child(1) .box .content button {
-  cursor: pointer;
-  background: #2196f3;
 }
 
 .card .box {
@@ -49,13 +57,13 @@
 .card .box .content {
   padding: 20px;
   text-align: center;
+  font-family: 'Space Grotesk', sans-serif;
 }
 
 .card .box .content h2 {
   position: absolute;
-  top: -10px;
-  right: 30px;
-  padding: 5px;
+  top: 10px;
+  right: 0px;
   font-size: 3em;
   color: rgba(255, 255, 255, 0.1);
 }
