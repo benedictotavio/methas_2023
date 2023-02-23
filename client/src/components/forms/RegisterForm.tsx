@@ -56,7 +56,7 @@ export default function RegisterForm(props: IAppProps) {
                 <input type="email" placeholder="E-mail" value={email} id="E-mail" onChange={e => setEmail(e.target.value)} required/>
 
                 <label htmlFor="password"></label>
-                <input type="password" placeholder="Senha" value={password} id="pass" onChange={e => setPassword(e.target.value)} required autoComplete='on'/>
+                <input type="password" placeholder="Senha" value={password} id="pass" autoComplete='on' onChange={e => setPassword(e.target.value)} required/>
 
                 <label htmlFor="password"></label>
                 <input type="password" placeholder="Confirme sua senha" value={confirmPassword} id="new-pass" onChange={e => setConfirmPassword(e.target.value)} required autoComplete='on' />

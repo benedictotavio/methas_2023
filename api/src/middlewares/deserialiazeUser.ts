@@ -9,15 +9,11 @@ const deserializeUser = async (
 
   const accessToken = (req.headers.authorization?.split(' ')[1])
 
-  console.log('Token = ' + accessToken)
-
   if (!accessToken) {
     return next();
   }
 
   const decoded = verifyJwt(accessToken, "accessTokenPublicKey");
-
-  console.log("Decoced = " + decoded);
 
   if (decoded) {
     res.locals.user = decoded;

@@ -15,5 +15,6 @@ export default {
         host: 'smtp.ethereal.email',
         port: 587,
         secure: false
-    }
+    },
+    web_url:process.env.WEB_URL
 }

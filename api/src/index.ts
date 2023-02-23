@@ -13,10 +13,14 @@ import routerAuth from "./routes/auth.routes"
 import routerUser from "./routes/user.routes"
 import log from "./utils/logger"
 import deserializeUser from "./middlewares/deserialiazeUser"
+import cors from 'cors'
 
 const app = express()
-
-// app.use(deserializeUser)
+app.use(cors({
+    origin: config.get('web_url'),
+    optionsSuccessStatus: 200
+}))
+app.use(deserializeUser)
 
 app.use(express.json())
 
@@ -25,8 +29,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(morgan('tiny'))
 
 const PORT = config.get('port') || 3030
-
-console.log(PORT)
 
 app.use('/api/metha', routerMetha)
 app.use('/api/users', routerUser)

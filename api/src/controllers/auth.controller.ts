@@ -17,12 +17,10 @@ export async function createSessionHandler(
 
   const { email, password } = req.body;
 
-
-
   const user = await findUserByEmail(email);
 
   if (!user) {
-    return res.send(message);
+    return res.status(402).send(user);
   }
 
   if (!user.verified) {

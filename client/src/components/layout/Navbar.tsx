@@ -46,9 +46,9 @@ const Navbar = () => {
                                 </div>
                             </li>
                         </Link>
-                        <li>
+                        <li onClick={handleExit}>
                             <div className="mail-icon">
-                                <SlLogout onClick={handleExit} />
+                                <SlLogout/>
                             </div>
                         </li>
                     </ul>
