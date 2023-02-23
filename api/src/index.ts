@@ -16,6 +16,8 @@ import deserializeUser from "./middlewares/deserialiazeUser"
 
 const app = express()
 
+// app.use(deserializeUser)
+
 app.use(express.json())
 
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -24,7 +26,7 @@ app.use(morgan('tiny'))
 
 const PORT = config.get('port') || 3030
 
-app.use(deserializeUser)
+console.log(PORT)
 
 app.use('/api/metha', routerMetha)
 app.use('/api/users', routerUser)
@@ -33,7 +35,7 @@ app.use('/api/auth', routerAuth)
 
 app.listen(PORT, () => {
     try {
-        log.info(`App started at http://localhost${PORT}`)
+        log.info(`App started at http://localhost:${PORT}`)
         connect()
     } catch (error) {
         throw error

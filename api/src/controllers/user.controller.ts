@@ -21,10 +21,13 @@ export async function createUserHandler(
 ) {
     const body = req.body;
 
-
+    console.log(body);
+    
     try {
 
         const user = await createUser(body);
+
+        console.log(user)
 
         await sendEmail({
             to: user.email,

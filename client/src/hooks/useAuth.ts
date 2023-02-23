@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import api from '../utils/api'
 
 interface UserData {
   data: object,
   token: string
 }
-
-const URL = process.env.API_URL
 
 export default function useAuth() {
   const [authenticated, setAuthenticated] = useState(false)
@@ -17,7 +16,7 @@ export default function useAuth() {
     const token = localStorage.getItem('token')
 
     if (token) {
-      // api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
+      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
       setAuthenticated(true)
     }
 
@@ -31,11 +30,10 @@ export default function useAuth() {
     let msgType = 'success'
 
     try {
-      const data = await fetch(URL + '/api/users', {
-        method: 'POST',
-        body: JSON.stringify(user)
-      }).then((res) => res)
-        .catch(err => err) as UserData;
+
+      const data = await api.post('/api/users', user).then((response) => {
+        return response.data
+      })
 
       data ? await authUser(data) : window.alert('O Registro de usuário falhou!')
 
@@ -49,12 +47,11 @@ export default function useAuth() {
   async function login(user: object) {
     let msgText = 'Login realizado com sucesso!'
     let msgType = 'success'
-
     try {
-      const data = await fetch(URL + '/api/auth/sessions', {
-        method: 'POST',
-        body: JSON.stringify(user)
-      }).then((res) => res) as UserData;
+
+      const data = await api.post('/api/auth/sessions', user).then((response) => {
+        return response.data
+      })
 
       await authUser(data)
 
@@ -83,7 +80,7 @@ export default function useAuth() {
 
     setAuthenticated(false)
     localStorage.removeItem('token')
-    // api.defaults.headers.Authorization = undefined
+    api.defaults.headers.Authorization = null
     history('/login')
 
     // setFlashMessage(msgText, msgType)
