@@ -19,8 +19,8 @@ export async function createUserHandler(
     req: Request<{}, {}, CreateUserInput>,
     res: Response
 ) {
-    const body = req.body;
 
+    const body = req.body;
     
     try {
 
@@ -34,6 +34,7 @@ export async function createUserHandler(
         });
 
         return res.send("User successfully created");
+        
     } catch (e: any) {
         if (e.code === 11000) {
             return res.status(409).send("Account already exists");

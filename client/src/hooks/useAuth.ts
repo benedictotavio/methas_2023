@@ -37,7 +37,18 @@ export default function useAuth() {
       const data = await api.post('/api/users', user).then((response) => {
         return response.data
       })
-      data ? await authUser(data) : window.alert('O Registro de usuário falhou!')
+
+      console.log(data)
+
+      if (data) {
+        try {
+          await authUser(data)
+          window.alert(data)
+        } catch (error) {
+          window.alert(error)
+        }
+
+      }
     } catch (error) {
       // tratar erro
       // msgText = error.response.data.message
@@ -67,10 +78,11 @@ export default function useAuth() {
   async function authUser(data: UserData) {
     if (data) {
       setAuthenticated(true)
+      console.log(data)
       console.log(data.token)
       localStorage.setItem('token', JSON.stringify(data.token))
       history('/home')
-    } else{
+    } else {
       console.log('error')
     }
   }
