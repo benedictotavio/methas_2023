@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../utils/api'
 
-interface UserData {
+export interface UserData {
   data: object,
-  token: string
+  token: string,
+  accessToken: string
 }
 
 export default function useAuth() {
@@ -16,10 +17,10 @@ export default function useAuth() {
 
     const token = localStorage.getItem('token')
 
-    console.log(token)
+
 
     if (token) {
-      api.defaults.headers.Authorization = `Bearer ${JSON.stringify(token)}`
+      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
       setAuthenticated(true)
     }
 
@@ -38,16 +39,12 @@ export default function useAuth() {
         return response.data
       })
 
-      console.log(data)
-
       if (data) {
         try {
-          await authUser(data)
-          window.alert(data)
+          await createUser(data)
         } catch (error) {
           window.alert(error)
         }
-
       }
     } catch (error) {
       // tratar erro
@@ -64,6 +61,7 @@ export default function useAuth() {
         return response.data
       })
 
+
       await authUser(data)
 
     } catch (error: unknown) {
@@ -75,15 +73,75 @@ export default function useAuth() {
     // setFlashMessage(msgText, msgType)
   }
 
-  async function authUser(data: UserData) {
-    if (data) {
-      setAuthenticated(true)
+  async function verifyUser(user: {
+    id?: string,
+    verifyCode: string
+  }) {
+    try {
+      const data = await api.post(`/api/users/verify/${user.id}/${user.verifyCode}`).then((response) => {
+        return response.data
+      })
+      authUser(data)
+      window.alert(data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function verifyEmail(user: {
+    email: string
+  }) {
+    try {
+      const data = await api.post('/api/users/forgotpassword', user).then((response) => {
+        return response.data
+      })
       console.log(data)
-      console.log(data.token)
-      localStorage.setItem('token', JSON.stringify(data.token))
-      history('/home')
+      history(`/forgot/${data}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function verifyEmailCode(user: {
+    id?:string,
+    verifyCode: string,
+    email: string,
+    password:string,
+    confirmPassword:string
+  }) {
+    try {
+      const data = await api.post(`/api/users/forgotpassword`, user).then((response) => {
+        return response.data
+      })
+      console.log(data)
+      history(`/forgot/${data}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async function createUser(data: UserData) {
+    if (data) {
+      setAuthenticated(false)
+      // localStorage.setItem('token', JSON.stringify(data.token))
+      history(`/verify/${data}`)
     } else {
       console.log('error')
+    }
+  }
+
+  async function authUser(data: UserData) {
+    if (data) {
+      try {
+        setAuthenticated(true)
+        localStorage.setItem('token', JSON.stringify(data.accessToken))
+        history('/home')
+      } catch (error) {
+        console.log(error)
+      }
+
+    } else {
+      console.log('Erro de autenticação')
     }
   }
 
@@ -101,5 +159,5 @@ export default function useAuth() {
     // setFlashMessage(msgText, msgType)
   }
 
-  return { authenticated, loading, register, login, logout }
+  return { authenticated, loading, register, login, logout, verifyUser, verifyEmail }
 }

@@ -37,10 +37,10 @@ const LoginForm = () => {
                 <h3>Login</h3>
 
                 <label htmlFor="username"></label>
-                <input type="email" placeholder="Email" value={email} autoComplete='on' id="email" onChange={e => setEmail(e.target.value)} required/>
+                <input type="email" placeholder="Email" value={email} autoComplete='on' id="email" onChange={e => setEmail(e.target.value)} required />
 
                 <label htmlFor="password"></label>
-                <input type="password" placeholder="Senha" value={password} autoComplete='on' id="password" onChange={e => setPassword(e.target.value)} required/>
+                <input type="password" placeholder="Senha" value={password} autoComplete='on' id="password" onChange={e => setPassword(e.target.value)} required />
 
                 <div className={style.link_form}>
                     <Link to='/register'>
@@ -48,9 +48,14 @@ const LoginForm = () => {
                     </Link>
                 </div>
 
-
-
                 <input type="submit" value="Log in" />
+
+                <div className={style.link_form}>
+                    <Link to='/forgot'>
+                        Esqueci minha senha
+                    </Link>
+                </div>
+
                 <div className={style.social}>
                     <div className={style.go}>
                         <i>
@@ -60,8 +65,8 @@ const LoginForm = () => {
                     </div>
                     <div className={style.fb}>
                         <i>
+                            <BsFacebook />
                         </i>
-                        <BsFacebook />
                     </div>
                 </div>
             </form>

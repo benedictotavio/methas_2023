@@ -21,20 +21,24 @@ export async function createUserHandler(
 ) {
 
     const body = req.body;
-    
+
+    console.log(body)
+
     try {
 
         const user = await createUser(body);
+
+        console.log(user)
 
         await sendEmail({
             to: user.email,
             from: "test@example.com",
             subject: "Verify your email",
-            text: `verification code: ${user.verificationCode}. Id: ${user._id}`,
+            text: `Código de verificação(copie e cole o código no site Methas): ${user.verificationCode}`,
         });
 
-        return res.send("User successfully created");
-        
+        return res.status(200).send(user._id);
+
     } catch (e: any) {
         if (e.code === 11000) {
             return res.status(409).send("Account already exists");
@@ -105,12 +109,12 @@ export async function forgotPasswordHandler(
         to: user.email,
         from: "test@example.com",
         subject: "Reset your password",
-        text: `Password reset code: ${passwordResetCode}. Id ${user._id}`,
+        text: `Password reset code: ${passwordResetCode}`,
     });
 
     log.debug(`Password reset email sent to ${email}`);
 
-    return res.send(message);
+    return res.send(user._id);
 }
 
 export async function resetPasswordHandler(

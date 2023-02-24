@@ -10,9 +10,9 @@ export default {
     accessTokenPublicKey: process.env.ACCESS_TOKEN_PUBLIC_KEY,
     refreshTokenPublicKey:process.env.REFRESH_PUBLIC_KEY,
     smtp: {
-        user: 'fsfi7whln3cag4nn@ethereal.email',
-        pass: 'TBFrznKxsUd24VwFk5',
-        host: 'smtp.ethereal.email',
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_PASS,
+        host: 'smtp.gmail.com',
         port: 587,
         secure: false
     },
