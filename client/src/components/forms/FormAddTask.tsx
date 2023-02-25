@@ -2,7 +2,7 @@ import CardItems from '../items/CardItems';
 import styles from './FormAddTask.module.css'
 
 export interface ITaskFormProps {
-    btnText: string
+    btnText: string,
 }
 
 export default function App({ btnText }: ITaskFormProps) {
@@ -14,17 +14,18 @@ export default function App({ btnText }: ITaskFormProps) {
                     <input type="task" name='task' />
 
                     <label htmlFor="task"></label>
-                    <select name="select">
+                    <select defaultValue={'DEFAULT'}>
+                        <option value="DEFAULT" selected>Choose a salutation ...</option>
                         <option value="valor1">Valor 1</option>
-                        <option value="valor2" selected>Valor 2</option>
+                        <option value="valor2">Valor 2</option>
                         <option value="valor3">Valor 3</option>
                     </select>
                 </div>
                 <div>
-                    <input type="button" value={btnText} />
+                    <input type="button" value={btnText}/>
                 </div>
             </form>
-            <CardItems color='#ccd5ae'/>
+            <CardItems color='#ccd5ae' />
         </div>
     );
 }

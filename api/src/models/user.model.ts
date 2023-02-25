@@ -62,7 +62,7 @@ import {
     verified: boolean;
   
     @prop({default:[]})
-    methas: string[]
+    methas: Object[]
     
     async validatePassword(this: DocumentType<User>, candidatePassword: string) {
       try {

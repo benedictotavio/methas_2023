@@ -20,7 +20,7 @@ export default function useAuth() {
 
 
     if (token) {
-      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
+      api.defaults.headers.Authorization = `Bearer ${JSON.stringify(token)}`
       setAuthenticated(true)
     }
 
@@ -49,7 +49,7 @@ export default function useAuth() {
     } catch (error) {
       // tratar erro
       // msgText = error.response.data.message
-      msgType = 'error'
+      window.alert('Usuário já cadastrado!')
     }
   }
 
@@ -81,8 +81,8 @@ export default function useAuth() {
       const data = await api.post(`/api/users/verify/${user.id}/${user.verifyCode}`).then((response) => {
         return response.data
       })
-      authUser(data)
       window.alert(data)
+      history('/')
     } catch (error) {
       console.log(error)
     }
@@ -103,18 +103,18 @@ export default function useAuth() {
   }
 
   async function verifyEmailCode(user: {
-    id?:string,
+    password: string,
+    confirmPassword: string
+  }, endpoint: {
+    id?: string,
     verifyCode: string,
-    email: string,
-    password:string,
-    confirmPassword:string
   }) {
     try {
-      const data = await api.post(`/api/users/forgotpassword`, user).then((response) => {
+      const data = await api.post(`/api/users/forgotpassword/${endpoint.id}/${endpoint.verifyCode}`, user).then((response) => {
         return response.data
       })
       console.log(data)
-      history(`/forgot/${data}`)
+      history('/')
     } catch (error) {
       console.log(error)
     }
@@ -159,5 +159,5 @@ export default function useAuth() {
     // setFlashMessage(msgText, msgType)
   }
 
-  return { authenticated, loading, register, login, logout, verifyUser, verifyEmail }
+  return { authenticated, loading, register, login, logout, verifyUser, verifyEmail, verifyEmailCode }
 }

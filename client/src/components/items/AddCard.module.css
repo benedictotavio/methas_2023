@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap');
+
 .container_add_task_card {
     display: flex;
     justify-content: flex-start;
@@ -15,6 +17,7 @@
     width: 25%;
     cursor: pointer;
     transition: .65s;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 .btn_add_task_card:hover {

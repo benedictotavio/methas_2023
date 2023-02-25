@@ -7,7 +7,8 @@ import { Context } from '../../context/UserContext'
 
 const Navbar = () => {
 
-    const {logout} = useContext(Context)
+    const { logout } = useContext(Context)
+    const { authenticated } = useContext(Context)
 
     const handleExit = (e: { preventDefault: () => void }) => {
         e.preventDefault()
@@ -22,7 +23,7 @@ const Navbar = () => {
                 </h1>
             </div>
             <div className={styles.nav_container}>
-                <nav>
+                {authenticated && <nav>
                     <ul>
                         <Link to='/home'>
                             <li className={styles.home_icon}>
@@ -48,11 +49,13 @@ const Navbar = () => {
                         </Link>
                         <li onClick={handleExit}>
                             <div className="mail-icon">
-                                <SlLogout/>
+                                <SlLogout />
                             </div>
                         </li>
                     </ul>
                 </nav>
+                }
+
             </div>
 
         </>
