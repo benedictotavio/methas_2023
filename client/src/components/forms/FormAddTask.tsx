@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import api from '../../utils/api';
 import CardItems from '../items/CardItems';
-import styles from './FormAddTask.module.css'
+import styles from './LoginForm.module.css'
 
 export interface ITaskFormProps {
     btnText: string,
@@ -22,7 +22,7 @@ export default function App({ btnText, category }: ITaskFormProps) {
         getAllMetha(id)
     }, [isUpdate])
 
-    const [allMetha, setAllMethas] = useState([{}])
+    const [allMethas, setAllMethas] = useState([{}])
 
     const getAllMetha = async (id: string | undefined) => {
         try {
@@ -36,6 +36,7 @@ export default function App({ btnText, category }: ITaskFormProps) {
 
     }
 
+    console.log(allMethas)
     const addMetha = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
         try {
@@ -66,25 +67,20 @@ export default function App({ btnText, category }: ITaskFormProps) {
 
     return (
         <div>
-            <form className={styles.form_task_add} onSubmit={addMetha}>
+            <form className={styles.form_login} onSubmit={addMetha}>
                 <div className={styles.form_task_add_container}>
-
                     <label htmlFor="metha"></label>
-                    <input type="text" name='metha' value={metha} onChange={e => setMetha(e.target.value)} />
-
-                    <label htmlFor='selectMetha'></label>
-                    <select name='selectMetha' defaultValue={'DEFAULT'}>
-                        <option value="DEFAULT" selected>Choose a salutation ...</option>
-                        <option value="valor1">Valor 1</option>
-                        <option value="valor2">Valor 2</option>
-                        <option value="valor3">Valor 3</option>
-                    </select>
+                    <input type="text" name='addMetha' value={metha} onChange={e => setMetha(e.target.value)} />
                 </div>
                 <div>
                     <input type="submit" value={btnText} />
                 </div>
             </form>
-            <CardItems color='#ccd5ae' methas={allMetha} category={category} deleteMetha={removeMetha} />
+            <CardItems
+                color='#ccd5ae'
+                methas={allMethas}
+                category={category}
+                deleteMetha={removeMetha} />
         </div>
     );
 }
