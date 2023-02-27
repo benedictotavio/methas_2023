@@ -1,12 +1,11 @@
 import { Request, Response } from 'express'
-import { findUserById } from '../service/user.service';
-import { createNewMetha, deleteMethaById, doneMetha, updateMethaById } from '../service/metha.service';
+import { createNewMetha, deleteMethaById, doneMetha, getAllMethaById, updateMethaById } from '../service/metha.service';
 
 export const createMetha = async (req: Request, res: Response) => {
 
     const { id } = req.params
 
-    const { category, title, done = false } = req.body
+    const { category, title } = req.body
 
     if (!title) {
         res.status(401).json({ message: "Metha não adicionada!" });
@@ -18,15 +17,13 @@ export const createMetha = async (req: Request, res: Response) => {
         return
     }
 
-    const metha = await createNewMetha(req.body);
+    const newMetha = req.body
 
-    const user = await findUserById(id);
+    newMetha.owner = id
 
-    user?.methas.push(metha._id);
+    const metha = await createNewMetha(newMetha);
 
-    user?.save();
-
-    res.status(200).send(metha);
+    res.status(200).send(metha)
 
 }
 
@@ -70,19 +67,32 @@ export const editMetha = async (req: Request, res: Response) => {
 }
 
 export const completeMetha = async (req: Request, res: Response) => {
-    const { _id } = req.body
+    const { metha_id } = req.body
 
-    if (!_id) {
-        res.status(401).send("Id não adicionado" )
+    if (!metha_id) {
+        res.status(401).send("Id não adicionado")
         return
     }
 
     try {
-        await doneMetha(_id)
+        await doneMetha(metha_id)
     } catch (error) {
         res.status(403).send('Task não encontrada')
         return
     }
 
     res.status(200).send('Task completa!')
+}
+
+export const getAllMetha = async (req: Request, res: Response) => {
+
+    const { id } = req.params
+
+    const methas = await getAllMethaById(id)
+
+    if (methas) {
+        res.status(200).send(methas)
+    } else {
+        res.status(403).send('Methas não encontradas!')
+    }
 }

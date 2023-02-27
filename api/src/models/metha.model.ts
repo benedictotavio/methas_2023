@@ -3,7 +3,8 @@ import mongoose from 'mongoose'
 const MethasSchema = new mongoose.Schema({
     category: {
         type: String,
-        required: true
+        required: true,
+        uppercase: true
     },
     title: {
         type: String,
@@ -13,6 +14,9 @@ const MethasSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
         required: true
+    },
+    owner: {
+        type: String
     }
 }, { timestamps: true })
 

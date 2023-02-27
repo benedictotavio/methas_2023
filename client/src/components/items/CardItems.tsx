@@ -1,27 +1,46 @@
 import style from './CardItems.module.css'
-import { FaTrash, FaEdit } from 'react-icons/fa'
+import { GrClose } from 'react-icons/gr'
+import { DOMAttributes, MouseEventHandler } from 'react';
 
 export interface ICardItemsProps {
-  color: string
+  color: string,
+  methas: objectMethas[] | object[] | any,
+  category: string,
+  deleteMetha: (id: string) => Promise<void> | MouseEventHandler<HTMLElement>
 }
 
-export default function CardItems({ color }: ICardItemsProps) {
+interface objectMethas {
+  _id: string,
+  category: string
+  done: true
+  title: string
+}
+
+
+export default function CardItems({ color, methas, category, deleteMetha }: ICardItemsProps) {
+
+  const methasCategory = methas.filter((metha: { category: string }) => metha.category === category.toUpperCase())
+
   return (
     <div style={{ backgroundColor: color }} className={style.item_card_task}>
-      <div className={style.item_card_icon_task}>
-        <input type="checkbox" name="" id="" />
-      </div>
-      <div className={style.item_card_text_task}>
-        <h3>
-          New job!
-        </h3>
-      </div>
-      <div className={style.item_card_action_task}>
-        <div>
-          <i><FaEdit /></i>
-          <i><FaTrash /></i>
-        </div>
-      </div>
+      {
+        methasCategory.map((metha: objectMethas) => (
+          <>
+            <div className={style.item_card_icon_task}>
+              <input type="checkbox" name="" id="" />
+            </div>
+            <div className={style.item_card_text_task}>
+              <h3>
+                {metha.title}
+              </h3>
+            </div><div className={style.item_card_action_task}>
+              <div>
+                <i onClick={() => deleteMetha(metha._id)}><GrClose /></i>
+              </div>
+            </div>
+          </>
+        ))
+      }
     </div>
   );
 }

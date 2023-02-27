@@ -67,7 +67,7 @@ const Card = ({ text, icon, category,colorIcon}: ICardProps) => {
                             <button onClick={closeModal}><GrClose /></button>
                         </div>
                         <div>
-                            <FormAddTask btnText='Adicionar metha' />
+                            <FormAddTask btnText='Adicionar metha' category = {category}/>
                         </div>
                     </div>
                 </Modal>

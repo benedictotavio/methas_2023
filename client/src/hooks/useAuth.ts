@@ -5,10 +5,12 @@ import api from '../utils/api'
 export interface UserData {
   data: object,
   token: string,
-  accessToken: string
+  accessToken: string,
+  user: string
 }
 
 export default function useAuth() {
+
   const [authenticated, setAuthenticated] = useState(false)
   const [loading, setLoading] = useState(true)
   const history = useNavigate()
@@ -18,9 +20,8 @@ export default function useAuth() {
     const token = localStorage.getItem('token')
 
 
-
     if (token) {
-      api.defaults.headers.Authorization = `Bearer ${JSON.stringify(token)}`
+      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
       setAuthenticated(true)
     }
 
@@ -135,7 +136,7 @@ export default function useAuth() {
       try {
         setAuthenticated(true)
         localStorage.setItem('token', JSON.stringify(data.accessToken))
-        history('/home')
+        history(`/home/${data.user}`)
       } catch (error) {
         console.log(error)
       }

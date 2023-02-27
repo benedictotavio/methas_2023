@@ -19,7 +19,7 @@ function App() {
         <UserProvider>
           <Routes>
             <Route path='/' element={<Login />} />
-            <Route path='/home' element={<Home />} />
+            <Route path='/home/:id' element={<Home />} />
             <Route path='/register' element={<Register />} />
             <Route path='/config' element={<Settings />} />
             <Route path='/forgot' element={<ForgotPasswordEmail />} />

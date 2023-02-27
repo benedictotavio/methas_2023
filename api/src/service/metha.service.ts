@@ -1,6 +1,11 @@
 import methaModel from "../models/metha.model";
 
-export function createNewMetha(input: object) {
+export function createNewMetha(input: {
+    category: string,
+    title: string,
+    done: boolean,
+    owner: string
+}) {
     return methaModel.create(input);
 }
 
@@ -15,7 +20,11 @@ export function updateMethaById(id: string, metha: {
 }
 
 export function doneMetha(id: string) {
-   return methaModel.findByIdAndUpdate(id, {
+    return methaModel.findByIdAndUpdate(id, {
         done: true
     })
+}
+
+export function getAllMethaById(id: string) {
+    return methaModel.find({ owner: id })
 }

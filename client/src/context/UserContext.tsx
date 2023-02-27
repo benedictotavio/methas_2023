@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 
 import useAuth, { UserData } from "../hooks/useAuth";
 
+
 export interface IContext {
   loading: boolean,
   authenticated: boolean,
