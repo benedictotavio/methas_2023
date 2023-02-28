@@ -6,50 +6,61 @@ export interface ICardItemsProps {
   color: string,
   methas: objectMethas[] | object[] | any,
   category: string,
-  deleteMetha: (id: string) => Promise<void> | MouseEventHandler<HTMLElement>
+  deleteMetha: (id: string) => Promise<void> | MouseEventHandler<HTMLElement>,
+  doneMetha: (id: string) => Promise<void>,
+  notDoneMetha: (id: string) => Promise<void>
 }
 
 interface objectMethas {
   _id: string,
   category: string
-  done: true
+  done: boolean
   title: string
 }
 
 
-export default function CardItems({ color, methas, category, deleteMetha }: ICardItemsProps) {
+export default function CardItems({ color, methas, category, deleteMetha, doneMetha, notDoneMetha }: ICardItemsProps) {
 
   const methasCategory = methas.filter((metha: { category: string }) => metha.category === category.toUpperCase())
 
   return (
-    <div style={{ backgroundColor: color }} className={style.item_card_task}>
+    <>
       {
-        methasCategory.map((metha: objectMethas, index: number) => {
-          return (
-            <>
-              <div key={index} className={style.item_card_icon_task}>
-                <input type="checkbox" name="" id="" />
-              </div>
+        methasCategory.map((metha: objectMethas, index: number) => (
+          <>
+            <div style={{ backgroundColor: color }} className={style.item_card_task}>
+              {
+                metha.done === false ?
+                  <div key={index} className={style.item_card_icon_task}>
+                    <label>
+                      <input type="checkbox" defaultChecked={false} onChange={() => doneMetha(metha._id)} />
+                    </label>
+                  </div>
+                  :
+                  <div key={index} className={style.item_card_icon_task}>
+                    <label>
+                      <input type="checkbox" defaultChecked={true} onChange={() => notDoneMetha(metha._id)} />
+                    </label>
+                  </div>
+              }
               <div className={style.item_card_text_task}>
                 <h3>
                   {metha.title}
                 </h3>
               </div><div className={style.item_card_action_task}>
                 <div>
-                  <button onClick={() => {
+
+                  <i onClick={() => {
                     deleteMetha(metha._id)
-                    console.log(metha.title)
-                  }}>
-                    <i><GrClose /></i>
-                  </button>
+                  }}><GrClose /></i>
+
                 </div>
               </div>
-            </>
-          )
-        }
-
+            </div>
+          </>
+        )
         )
       }
-    </div>
+    </>
   );
 }

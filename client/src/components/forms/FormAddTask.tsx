@@ -36,7 +36,31 @@ export default function App({ btnText, category }: ITaskFormProps) {
 
     }
 
-    console.log(allMethas)
+    const completeMetha = async (id: string) => {
+        try {
+           await api.post('/api/metha/complete', {
+                metha_id: id
+            })
+
+        } catch (error) {
+            window.alert(error)
+        }
+        setUpdate(!isUpdate)
+    }
+
+    const uncompleteMetha = async (id: string) => {
+        try {
+           await api.post('/api/metha/uncomplete', {
+                metha_id: id
+            })
+
+        } catch (error) {
+            window.alert(error)
+        }
+        setUpdate(!isUpdate)
+    }
+
+
     const addMetha = async (e: { preventDefault: () => void; }) => {
         e.preventDefault()
         try {
@@ -80,7 +104,9 @@ export default function App({ btnText, category }: ITaskFormProps) {
                 color='#ccd5ae'
                 methas={allMethas}
                 category={category}
-                deleteMetha={removeMetha} />
+                deleteMetha={removeMetha} 
+                doneMetha = {completeMetha}
+                notDoneMetha = {uncompleteMetha}/>
         </div>
     );
 }

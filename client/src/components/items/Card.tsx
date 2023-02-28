@@ -5,13 +5,16 @@ import FormAddTask from '../forms/FormAddTask'
 import { GrClose } from 'react-icons/gr'
 import { MdAttachMoney, MdFamilyRestroom } from 'react-icons/md'
 import { CgGym } from 'react-icons/cg'
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+import api from '../../utils/api'
 
 
 export interface ICardProps {
     text: string,
     icon: 'money' | 'health' | 'family',
     category: string,
-    colorIcon:string
+    colorIcon: string
 }
 
 const customStyles = {
@@ -29,7 +32,22 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
-const Card = ({ text, icon, category,colorIcon}: ICardProps) => {
+const Card = ({ text, icon, category, colorIcon }: ICardProps) => {
+
+    const [allMethas, setAllMethas] = useState([{}])
+
+
+    const getAllMetha = async (id: string | undefined) => {
+        try {
+            await api.get(`/api/metha/${id}`)
+
+                .then(res => setAllMethas(res.data))
+                .catch(err => window.alert(err))
+        } catch (error) {
+            window.alert(error)
+        }
+
+    }
 
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
 
@@ -46,13 +64,16 @@ const Card = ({ text, icon, category,colorIcon}: ICardProps) => {
                 <div className={style.box}>
                     <div className={style.content}>
                         <h2>
-                            {icon === 'money' ? <MdAttachMoney fontSize='1.75em' color={colorIcon}/> : icon === 'health' ? <CgGym fontSize='1.8em' color={colorIcon} /> : <MdFamilyRestroom fontSize='2em' color={colorIcon}/>}
+                            {icon === 'money' ? <MdAttachMoney fontSize='1.75em' color={colorIcon} /> : icon === 'health' ? <CgGym fontSize='1.8em' color={colorIcon} /> : <MdFamilyRestroom fontSize='2em' color={colorIcon} />}
                         </h2>
                         <h3>{category}</h3>
                         <p>{text}</p>
                         <button onClick={openModal}>
                             Veja suas metas
                         </button>
+                        <div className={style.progressbar_area}>
+                            <CircularProgressbar value={66} />
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,7 +88,7 @@ const Card = ({ text, icon, category,colorIcon}: ICardProps) => {
                             <button onClick={closeModal}><GrClose /></button>
                         </div>
                         <div>
-                            <FormAddTask btnText='Adicionar metha' category = {category}/>
+                            <FormAddTask btnText='Adicionar metha' category={category} />
                         </div>
                     </div>
                 </Modal>

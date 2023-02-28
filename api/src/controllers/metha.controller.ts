@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { createNewMetha, deleteMethaById, doneMetha, getAllMethaById, updateMethaById } from '../service/metha.service';
+import { createNewMetha, deleteMethaById, doneMetha, getAllMethaById, notDoneMetha, updateMethaById } from '../service/metha.service';
 
 export const createMetha = async (req: Request, res: Response) => {
 
@@ -67,6 +67,7 @@ export const editMetha = async (req: Request, res: Response) => {
 }
 
 export const completeMetha = async (req: Request, res: Response) => {
+    
     const { metha_id } = req.body
 
     if (!metha_id) {
@@ -82,6 +83,25 @@ export const completeMetha = async (req: Request, res: Response) => {
     }
 
     res.status(200).send('Task completa!')
+}
+
+export const comebackMetha = async (req: Request, res: Response) => {
+    
+    const { metha_id } = req.body
+
+    if (!metha_id) {
+        res.status(401).send("Id não adicionado")
+        return
+    }
+
+    try {
+        await notDoneMetha(metha_id)
+    } catch (error) {
+        res.status(403).send('Task não encontrada')
+        return
+    }
+
+    res.status(200).send('Task não concluida!')
 }
 
 export const getAllMetha = async (req: Request, res: Response) => {

@@ -10,7 +10,7 @@ export function createNewMetha(input: {
 }
 
 export function deleteMethaById(id: string) {
-    return methaModel.deleteOne({ id })
+    return methaModel.findByIdAndDelete(id)
 }
 
 export function updateMethaById(id: string, metha: {
@@ -22,6 +22,12 @@ export function updateMethaById(id: string, metha: {
 export function doneMetha(id: string) {
     return methaModel.findByIdAndUpdate(id, {
         done: true
+    })
+}
+
+export function notDoneMetha(id: string) {
+    return methaModel.findByIdAndUpdate(id, {
+        done: false
     })
 }
 
