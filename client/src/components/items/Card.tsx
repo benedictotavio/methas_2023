@@ -1,13 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import style from './Card.module.css'
 import Modal from 'react-modal'
 import FormAddTask from '../forms/FormAddTask'
 import { GrClose } from 'react-icons/gr'
 import { MdAttachMoney, MdFamilyRestroom } from 'react-icons/md'
 import { CgGym } from 'react-icons/cg'
-import { CircularProgressbar } from 'react-circular-progressbar';
+import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 import api from '../../utils/api'
+import { useParams } from 'react-router-dom'
 
 
 export interface ICardProps {
@@ -34,21 +35,8 @@ Modal.setAppElement('#root');
 
 const Card = ({ text, icon, category, colorIcon }: ICardProps) => {
 
-    const [allMethas, setAllMethas] = useState([{}])
-
-
-    const getAllMetha = async (id: string | undefined) => {
-        try {
-            await api.get(`/api/metha/${id}`)
-
-                .then(res => setAllMethas(res.data))
-                .catch(err => window.alert(err))
-        } catch (error) {
-            window.alert(error)
-        }
-
-    }
-
+    const { id } = useParams()
+    const [allMethas, setAllMethas] = useState<any>([]);
     const [modalIsOpen, setIsOpen] = useState<boolean>(false);
 
     function openModal() {
@@ -58,13 +46,34 @@ const Card = ({ text, icon, category, colorIcon }: ICardProps) => {
     function closeModal() {
         setIsOpen(false);
     }
+
+    useEffect(() => {
+        getAllMetha(id)
+    }, [modalIsOpen])
+
+    const getAllMetha = async (id: string | undefined) => {
+        try {
+            await api.get(`/api/metha/${id}`)
+                .then(res => setAllMethas(res.data))
+                .catch(err => window.alert(err))
+        } catch (error) {
+            window.alert(error)
+        }
+    }
+
+    const methasByCategory = allMethas.filter((metha: { category: string }) => metha.category === category.toUpperCase())
+
+    const doneMethasbyCategory = methasByCategory.filter((metha: { done: boolean }) => metha.done === true)
+
+    let valueProgressbar = (100 * doneMethasbyCategory.length) / methasByCategory.length
+
     return (
         <>
             <div className={style.card}>
                 <div className={style.box}>
                     <div className={style.content}>
                         <h2>
-                            {icon === 'money' ? <MdAttachMoney fontSize='1.75em' color={colorIcon} /> : icon === 'health' ? <CgGym fontSize='1.8em' color={colorIcon} /> : <MdFamilyRestroom fontSize='2em' color={colorIcon} />}
+                            {icon === 'money' ? <MdAttachMoney fontSize='1.5em' color={colorIcon} /> : icon === 'health' ? <CgGym fontSize='1.5em' color={colorIcon} /> : <MdFamilyRestroom fontSize='1.5em' color={colorIcon} />}
                         </h2>
                         <h3>{category}</h3>
                         <p>{text}</p>
@@ -72,7 +81,43 @@ const Card = ({ text, icon, category, colorIcon }: ICardProps) => {
                             Veja suas metas
                         </button>
                         <div className={style.progressbar_area}>
-                            <CircularProgressbar value={66} />
+                            <CircularProgressbar value={Number.isNaN(valueProgressbar) ? 0 : valueProgressbar} styles={{
+                                // Customize the root svg element
+                                root: {},
+                                // Customize the path, i.e. the "completed progress"
+                                path: {
+                                    // Path color
+                                    stroke: colorIcon,
+                                    // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                    strokeLinecap: 'revert-layer',
+                                    // Customize transition animation
+                                    transition: 'stroke-dashoffset 0.5s ease 0s',
+                                    // Rotate the path
+                                    transform: 'rotate(0.25turn)',
+                                    transformOrigin: 'center center',
+                                },
+                                // Customize the circle behind the path, i.e. the "total progress"
+                                trail: {
+                                    // Trail color
+                                    stroke: '#d6d6d6',
+                                    // Whether to use rounded or flat corners on the ends - can use 'butt' or 'round'
+                                    strokeLinecap: 'butt',
+                                    // Rotate the trail
+                                    transform: 'rotate(0.25turn)',
+                                    transformOrigin: 'center center',
+                                },
+                                // Customize the text
+                                text: {
+                                    // Text color
+                                    fill: '#f88',
+                                    // Text size
+                                    fontSize: '16px',
+                                },
+                                // Customize background - only used when the `background` prop is true
+                                background: {
+                                    fill: '#3e98c7',
+                                },
+                            }} />
                         </div>
                     </div>
                 </div>
@@ -88,7 +133,7 @@ const Card = ({ text, icon, category, colorIcon }: ICardProps) => {
                             <button onClick={closeModal}><GrClose /></button>
                         </div>
                         <div>
-                            <FormAddTask btnText='Adicionar metha' category={category} />
+                            <FormAddTask btnText='Adicionar metha' category={category} allMetha={allMethas} />
                         </div>
                     </div>
                 </Modal>

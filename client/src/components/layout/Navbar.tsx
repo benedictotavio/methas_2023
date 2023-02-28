@@ -23,18 +23,18 @@ const Navbar = () => {
                 </h1>
             </div>
             <div className={styles.nav_container}>
-                {authenticated && <nav>
+                {authenticated && <> <nav className={styles.nav_container}>
                     <ul>
                         <Link to='/home'>
-                            <li className={styles.home_icon}>
+                            <li className={styles}>
                                 <div>
                                     <BsHouseDoor />
                                 </div>
                             </li>
                         </Link>
                         <Link to='/user'>
-                            <li className={styles.user}>
-                                <div className="work-icon">
+                            <li className={styles}>
+                                <div>
                                     <SlUser />
                                 </div>
                             </li>
@@ -54,6 +54,38 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </nav>
+                    <nav className={styles.nav_container_mobile}>
+                        <ul>
+                            <Link to='/home'>
+                                <li className={styles}>
+                                    <div>
+                                        <BsHouseDoor />
+                                    </div>
+                                </li>
+                            </Link>
+                            <Link to='/user'>
+                                <li className={styles}>
+                                    <div className="work-icon">
+                                        <SlUser />
+                                    </div>
+                                </li>
+                            </Link>
+
+                            <Link to='/config'>
+                                <li className={styles}>
+                                    <div>
+                                        <SlSettings />
+                                    </div>
+                                </li>
+                            </Link>
+                            <li onClick={handleExit}>
+                                <div className="mail-icon">
+                                    <SlLogout />
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </>
                 }
 
             </div>

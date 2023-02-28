@@ -31,29 +31,25 @@ export default function CardItems({ color, methas, category, deleteMetha, doneMe
             <div style={{ backgroundColor: color }} className={style.item_card_task}>
               {
                 metha.done === false ?
-                  <div key={index} className={style.item_card_icon_task}>
+                  <div className={style.item_card_icon_task}>
                     <label>
                       <input type="checkbox" defaultChecked={false} onChange={() => doneMetha(metha._id)} />
                     </label>
                   </div>
                   :
-                  <div key={index} className={style.item_card_icon_task}>
+                  <div className={style.item_card_icon_task}>
                     <label>
                       <input type="checkbox" defaultChecked={true} onChange={() => notDoneMetha(metha._id)} />
                     </label>
                   </div>
               }
-              <div className={style.item_card_text_task}>
+              <div key = {index +'_'+ metha._id} className={style.item_card_text_task}>
                 <h3>
                   {metha.title}
                 </h3>
               </div><div className={style.item_card_action_task}>
                 <div>
-
-                  <i onClick={() => {
-                    deleteMetha(metha._id)
-                  }}><GrClose /></i>
-
+                  <i onClick={() => deleteMetha(metha._id)}><GrClose /></i>
                 </div>
               </div>
             </div>

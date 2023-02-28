@@ -6,39 +6,39 @@ import styles from './LoginForm.module.css'
 
 export interface ITaskFormProps {
     btnText: string,
-    category: string
+    category: string,
+    allMetha: {}[]
 }
 
 
 
-export default function App({ btnText, category }: ITaskFormProps) {
+export default function App({ btnText, category, allMetha }: ITaskFormProps) {
 
     const [metha, setMetha] = useState('')
     const [isUpdate, setUpdate] = useState(false)
 
     const { id } = useParams()
 
-    useEffect(() => {
-        getAllMetha(id)
-    }, [isUpdate])
+    // useEffect(() => {
+    //     getAllMetha(id)
+    // }, [isUpdate])
 
-    const [allMethas, setAllMethas] = useState([{}])
+    // const [allMethas, setAllMethas] = useState([{}])
 
-    const getAllMetha = async (id: string | undefined) => {
-        try {
-            await api.get(`/api/metha/${id}`)
+    // const getAllMetha = async (id: string | undefined) => {
+    //     try {
+    //         await api.get(`/api/metha/${id}`)
 
-                .then(res => setAllMethas(res.data))
-                .catch(err => window.alert(err))
-        } catch (error) {
-            window.alert(error)
-        }
-
-    }
+    //             .then(res => setAllMethas(res.data))
+    //             .catch(err => window.alert(err))
+    //     } catch (error) {
+    //         window.alert(error)
+    //     }
+    // }
 
     const completeMetha = async (id: string) => {
         try {
-           await api.post('/api/metha/complete', {
+            await api.post('/api/metha/complete', {
                 metha_id: id
             })
 
@@ -50,7 +50,7 @@ export default function App({ btnText, category }: ITaskFormProps) {
 
     const uncompleteMetha = async (id: string) => {
         try {
-           await api.post('/api/metha/uncomplete', {
+            await api.post('/api/metha/uncomplete', {
                 metha_id: id
             })
 
@@ -73,6 +73,7 @@ export default function App({ btnText, category }: ITaskFormProps) {
             } else {
                 window.alert('Adicione a metha!')
             }
+            setMetha('')
         } catch (error) {
             window.alert(error)
         }
@@ -102,11 +103,11 @@ export default function App({ btnText, category }: ITaskFormProps) {
             </form>
             <CardItems
                 color='#ccd5ae'
-                methas={allMethas}
+                methas={allMetha}
                 category={category}
-                deleteMetha={removeMetha} 
-                doneMetha = {completeMetha}
-                notDoneMetha = {uncompleteMetha}/>
+                deleteMetha={removeMetha}
+                doneMetha={completeMetha}
+                notDoneMetha={uncompleteMetha} />
         </div>
     );
 }

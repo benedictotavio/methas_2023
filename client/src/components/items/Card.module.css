@@ -1,14 +1,37 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap');
 
+.nav_container_mobile{
+  background-color: aqua;
+}
 
-@media (max-width:900px) {
-  .card {
+.nav_container_mobile nav ul{
+  display: flex;
+}
+
+@media (max-width:1000px) {
+  div.card {
     position: relative;
-    width: 600px;
-    height: 440px;
-    margin: 30px;
+    height: 400px;
+    margin: 10px;
     transition: 0.5s;
     background-color: #fff;
+    width: 650px;
+  }
+
+  .box {
+    background-color: aquamarine;
+  }
+
+  .card .box .content {
+    padding: 0;
+  }
+
+  .progressbar_area{
+    padding-top: 15px;
+    width: 50%;
+    height: 50%;
+    text-align: center;
+    margin: 0 auto;
   }
 }
 
@@ -116,4 +139,11 @@
   cursor: pointer;
   border: 0;
   background: none;
+}
+
+.progressbar_area svg {
+  padding-top: 15px;
+  width: 50%;
+  height: 50%;
+  text-align: center;
 }

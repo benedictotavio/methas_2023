@@ -1,13 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500&display=swap');
 
+div.nav_container nav.nav_container_mobile {
+    display: none;
+}
+
 :after {
     content: "";
 }
-.logo{
+
+.logo {
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
+
 .logo h1 {
     margin: 10px;
     font-size: 2em;
@@ -34,7 +40,7 @@
     font-size: 1.3em;
 }
 
-.nav_container nav {
+div.nav_container nav.nav_container {
     float: left;
     position: relative;
     top: -58.6px;
@@ -73,15 +79,16 @@
     transition: all .4s ease-out;
 }
 
-.nav_container nav ul svg{
+.nav_container nav ul svg {
     color: black;
 }
+
 .nav_container nav ul a li.home_icon:after {
     content: "Home";
     line-height: 88px;
 }
 
-.nav_container nav ul  li.user:after {
+.nav_container nav ul li.user:after {
     content: "User";
     line-height: 88px;
 }
@@ -327,4 +334,14 @@
     border-style: solid;
     border-width: 0 16px 9px 16px;
     border-color: transparent transparent white transparent;
+}
+
+@media (max-width:420px){
+    div.nav_container nav.nav_container {
+        display: none;
+    }
+
+    div.nav_container nav.nav_container_mobile {
+        display: flex;
+    }
 }
