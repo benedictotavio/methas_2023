@@ -1,0 +1,24 @@
+.item_card_task {
+    display: grid;
+    grid-template-columns: 40fr 400fr 100fr;
+    border: .25px solid rgb(194, 194, 194);
+    padding: 10px;
+    margin: 15px 5px;
+    border-radius: 50px;
+    margin-bottom: 15px;
+}
+
+.item_card_task .item_card_action_task i>svg {
+    cursor: pointer;
+    color: aliceblue;
+    margin: 5px;
+    transition: .35s;
+}
+
+.item_card_action_task i>svg:hover {
+    transform: scale(1.15);
+}
+
+.item_card_text_task h3 {
+    font-family: 'Montserrat', sans-serif;
+}

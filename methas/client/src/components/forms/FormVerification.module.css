@@ -1,0 +1,55 @@
+.form_verify_container {
+    min-height: 65vh;
+    margin:15px 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.form_verify {
+    margin: auto 15px;
+    text-align: center;
+    padding:75px 40px;
+    border: 1.25px solid black;
+    border-top-left-radius: 30px;
+    border-bottom-right-radius: 35px;
+}
+
+.form_verify input[type=text]{
+    display: block;
+    height: 40px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 3px;
+    margin: 8px auto;
+    font-size: 14px;
+    font-weight: 300;
+    border: .25px solid black;
+    text-align: center;
+}
+
+.form_verify input[type=email]{
+    display: block;
+    height: 40px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 3px;
+    margin: 8px auto;
+    font-size: 14px;
+    font-weight: 300;
+    border: .25px solid black;
+    text-align: center;
+}
+
+.form_verify input[type=submit]{
+    margin-top: 15px;
+    width: 100%;
+    background-color: #080710;
+    color: #EEEEEE;
+    padding: 12px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
