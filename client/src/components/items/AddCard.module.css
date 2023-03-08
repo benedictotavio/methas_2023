@@ -14,7 +14,6 @@
     justify-content: center;
     align-items: center;
     background-color: #dda15e;
-    width: 25%;
     cursor: pointer;
     transition: .65s;
     font-family: 'Space Grotesk', sans-serif;
@@ -25,9 +24,11 @@
     color: #dda15e;
     transform: translate(20px);
 }
-.add_category h2{
+
+.add_category h2 {
     margin: 15px auto;
 }
+
 .btn_add_task_card i>svg {
     margin: auto 5px;
     color: aliceblue;
@@ -35,8 +36,23 @@
 }
 
 .card_modal_select_category {
-    width: 100%
+    width: 100%;
+    text-align: center;
 }
+
+.card_modal_select_category input[type=text] {
+    display: block;
+    height: 40px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.07);
+    border-radius: 3px;
+    padding: auto 5px;
+    margin-top: 5px;
+    font-size: 14px;
+    font-weight: 300;
+    border: .25px solid black;
+}
+
 
 .card_close {
     display: flex;
@@ -48,7 +64,7 @@
     justify-content: center;
 }
 
-.contaier_category_select{
+.contaier_category_select {
     width: 75%;
     padding: 10px;
     margin: 20px auto;
@@ -63,7 +79,7 @@
     margin: 10px;
 }
 
-.card_category_selection_button button {
+.card_category_selection_button input[type=submit] {
     padding: 15px;
     border-radius: 35px;
     border: 0;
@@ -72,7 +88,7 @@
     transition: .25s;
 }
 
-.card_category_selection_button button:hover{
+.card_category_selection_button input[type=submit]:hover {
     background-color: #fff;
     color: #f4a261;
     transform: scale(1.1);

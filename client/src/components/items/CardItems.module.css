@@ -1,6 +1,7 @@
 .item_card_task {
-    display: grid;
-    grid-template-columns: 40fr 400fr 100fr;
+    background-color: bisque;
+   display: grid;
+   grid-template-columns: 50fr 300fr 25fr;
     border: .25px solid rgb(194, 194, 194);
     padding: 10px;
     margin: 15px 5px;

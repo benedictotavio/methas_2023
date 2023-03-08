@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { ReactNode } from "react";
 
-import useAuth, { UserData } from "../hooks/useAuth";
+import useAuth from "../hooks/useAuth";
 
 
 export interface IContext {

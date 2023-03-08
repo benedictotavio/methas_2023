@@ -1,7 +1,9 @@
 import { MdOutlineAdd, MdClose, MdAttachMoney, MdFamilyRestroom, MdMedicalServices } from "react-icons/md";
 import styles from './AddCard.module.css'
 import ReactModal from "react-modal";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { MethaContext } from "../../context/MethaContext";
+import { useParams } from "react-router-dom";
 
 export interface IAddCardProps {
 }
@@ -20,11 +22,12 @@ const customStyles = {
 ReactModal.setAppElement('#root')
 
 
-
-
 export default function AddCard(props: IAddCardProps) {
 
     const [modalIsOpen, setIsOpen] = useState(false);
+    const [metha, setMetha] = useState('')
+    const [categoryMetha, setCategoryMetha] = useState('Dinheiro')
+    const { id } = useParams()
 
     function openModal() {
         setIsOpen(true);
@@ -33,6 +36,9 @@ export default function AddCard(props: IAddCardProps) {
     function closeModal() {
         setIsOpen(false);
     }
+
+    const { saveMetha } = useContext(MethaContext)
+
 
     return (
         <div className={styles.container_add_task_card}>
@@ -50,27 +56,41 @@ export default function AddCard(props: IAddCardProps) {
                 style={customStyles}
                 contentLabel="React Modal a add a card metha"
             >
-                <div className={styles.add_category}>
-                    <div className={styles.card_close}>
-                        <MdClose onClick={closeModal} />
-                    </div>
-                    <h2>De qual metha estamos falando?</h2>
-                    <div className={styles.card_modal_select_category}>
-                        <div>
+                <form onSubmit={(e) => {
+                    e.preventDefault()
+                    saveMetha({
+                        id: id,
+                        title: metha,
+                        category: categoryMetha
+                    })
+                    setMetha("")
+                }}>
+                    <div className={styles.add_category}>
+                        <div className={styles.card_close}>
+                            <MdClose onClick={closeModal} />
+                        </div>
+                        <h2>De qual metha estamos falando?</h2>
+                        <div className={styles.card_modal_select_category}>
+                            <div className={styles.text_modal_select}>
+                                <input type="text" value={metha} name="metha" id="metha" onChange={(e => setMetha(e.target.value))} />
+                            </div>
                             <div className={styles.contaier_category_card}>
-                                <select name="select-category" className={styles.contaier_category_select}>
-                                    <option value="money">Dinheiro </option>
-                                    <option value="family">Familia</option>
-                                    <option value="health">Saude</option>
-                                    <option value="others">Outros</option>
+                                <select name="select-category"
+                                    defaultValue={categoryMetha}
+                                    onChange={e => setCategoryMetha(e.target.value)}
+                                    className={styles.contaier_category_select}>
+                                    <option value="Dinheiro">Dinheiro </option>
+                                    <option value="Familia">Familia</option>
+                                    <option value="Saúde">Saude</option>
+                                    <option value="Outros">Outros</option>
                                 </select>
                             </div>
                             <div className={styles.card_category_selection_button}>
-                                <button>Criar metha</button>
+                                <input type="submit" value="Criar Metha" />
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </ReactModal>
         </div>
     );

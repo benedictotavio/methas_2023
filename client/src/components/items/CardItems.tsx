@@ -1,62 +1,43 @@
-import style from './CardItems.module.css'
+import { useContext } from 'react';
 import { GrClose } from 'react-icons/gr'
-import { DOMAttributes, MouseEventHandler } from 'react';
-
-export interface ICardItemsProps {
-  color: string,
-  methas: objectMethas[] | object[] | any,
-  category: string,
-  deleteMetha: (id: string) => Promise<void> | MouseEventHandler<HTMLElement>,
-  doneMetha: (id: string) => Promise<void>,
-  notDoneMetha: (id: string) => Promise<void>
-}
+import { MethaContext } from '../../context/MethaContext';
+import styles from './CardItems.module.css'
 
 interface objectMethas {
-  _id: string,
-  category: string
+  title: string,
+  id: string,
   done: boolean
-  title: string
 }
 
 
-export default function CardItems({ color, methas, category, deleteMetha, doneMetha, notDoneMetha }: ICardItemsProps) {
+export default function CardItems({ title, id, done }: objectMethas) {
 
-  const methasCategory = methas.filter((metha: { category: string }) => metha.category === category.toUpperCase())
+
+  const { deleteMetha, doneMetha, notDoneMetha } = useContext(MethaContext)
 
   return (
-    <>
-      {
-        methasCategory.map((metha: objectMethas, index: number) => (
-          <>
-            <div style={{ backgroundColor: color }} className={style.item_card_task}>
-              {
-                metha.done === false ?
-                  <div className={style.item_card_icon_task}>
-                    <label>
-                      <input type="checkbox" defaultChecked={false} onChange={() => doneMetha(metha._id)} />
-                    </label>
-                  </div>
-                  :
-                  <div className={style.item_card_icon_task}>
-                    <label>
-                      <input type="checkbox" defaultChecked={true} onChange={() => notDoneMetha(metha._id)} />
-                    </label>
-                  </div>
-              }
-              <div key = {index +'_'+ metha._id} className={style.item_card_text_task}>
-                <h3>
-                  {metha.title}
-                </h3>
-              </div><div className={style.item_card_action_task}>
-                <div>
-                  <i onClick={() => deleteMetha(metha._id)}><GrClose /></i>
-                </div>
-              </div>
-            </div>
-          </>
-        )
-        )
-      }
-    </>
+    <div className={styles.item_card_task}>
+      <div className={styles.check_card}>
+        <label>
+          {
+            done === false ?
+              <input type="checkbox" defaultChecked={false} onChange={() => doneMetha(id)} />
+              :
+              <input type="checkbox" defaultChecked={true} onChange={() => notDoneMetha(id)} />
+          }
+        </label>
+      </div>
+      <div className={styles.item_card_text_task}>
+        <h3>
+          {title}
+        </h3>
+      </div>
+
+      <div className={styles.item_card_action_task}>
+        <i>
+          <GrClose onClick={() => deleteMetha(id)} />
+        </i>
+      </div>
+    </div>
   );
 }

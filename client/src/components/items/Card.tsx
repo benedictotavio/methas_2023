@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import style from './Card.module.css'
 import Modal from 'react-modal'
 import FormAddTask from '../forms/FormAddTask'
 import { GrClose } from 'react-icons/gr'
 import { MdAttachMoney, MdFamilyRestroom } from 'react-icons/md'
 import { CgGym } from 'react-icons/cg'
-import { buildStyles, CircularProgressbar } from 'react-circular-progressbar';
+import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import api from '../../utils/api'
 import { useParams } from 'react-router-dom'
+import { MethaContext } from '../../context/MethaContext'
 
 
 export interface ICardProps {
@@ -47,17 +47,25 @@ const Card = ({ text, icon, category, colorIcon }: ICardProps) => {
         setIsOpen(false);
     }
 
+    const { allMetha, saveMetha, doneMetha, notDoneMetha, update } = useContext(MethaContext)
+
     useEffect(() => {
         getAllMetha(id)
-    }, [modalIsOpen])
+    }, [modalIsOpen, update])
 
     const getAllMetha = async (id: string | undefined) => {
+            allMetha({id}).then(res => setAllMethas(res))
+    }
+
+    const addMetha = (metha: string) => {
         try {
-            await api.get(`/api/metha/${id}`)
-                .then(res => setAllMethas(res.data))
-                .catch(err => window.alert(err))
+            saveMetha({
+                id,
+                title: metha,
+                category: category.toUpperCase()
+            })
         } catch (error) {
-            window.alert(error)
+            window.alert('error')
         }
     }
 
@@ -133,7 +141,7 @@ const Card = ({ text, icon, category, colorIcon }: ICardProps) => {
                             <button onClick={closeModal}><GrClose /></button>
                         </div>
                         <div>
-                            <FormAddTask btnText='Adicionar metha' category={category} allMetha={allMethas} />
+                            <FormAddTask btnText='Adicionar metha' save={addMetha} allMetha={methasByCategory} />
                         </div>
                     </div>
                 </Modal>
