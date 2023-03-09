@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
 import CardItems from '../items/CardItems';
 import styles from './LoginForm.module.css'
 
@@ -34,11 +33,9 @@ export default function App({ btnText,allMetha,save }: ITaskFormProps) {
             </form>
             <div>
                 {
-
                     allMetha.map((item, indx) => (
                         <CardItems key={indx} title={item.title} id={item._id} done={item.done} />
                     ))
-
                 }
             </div>
         </div>
