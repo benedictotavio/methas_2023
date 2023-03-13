@@ -42,8 +42,7 @@ export async function createSessionHandler(
   // send the tokens
   return res.send({
     accessToken,
-    refreshToken,
-    user: user._id
+    refreshToken
   });
 }
 

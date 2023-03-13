@@ -20,6 +20,7 @@ app.use(cors({
     origin: config.get('web_url'),
     optionsSuccessStatus: 200
 }))
+
 app.use(deserializeUser)
 
 app.use(express.json())

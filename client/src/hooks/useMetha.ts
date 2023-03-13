@@ -16,8 +16,8 @@ export default function useMetha() {
         id?: string
     }) {
         try {
-            const data = api.get(`api/metha/${metha.id}`).then((response) => {
-                return response.data
+            const data = api.get(`api/metha/${metha.id}`).then((res) => {
+                return res.data
             })
             return data
         } catch (error) {

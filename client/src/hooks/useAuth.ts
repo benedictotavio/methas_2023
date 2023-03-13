@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import api from '../utils/api'
 
 export interface UserData {
-  data: object,
+  data: void,
   token: string,
   accessToken: string,
   user: string
@@ -12,30 +12,23 @@ export interface UserData {
 export default function useAuth() {
 
   const [authenticated, setAuthenticated] = useState(false)
+  const [acessToken, setAcessToken] = useState<string | null>(localStorage.getItem('token'))
+  const [userSession, setUserSession] = useState<{ _id?: string }>({})
   const [loading, setLoading] = useState(true)
   const history = useNavigate()
 
   useEffect(() => {
-
-    const token = localStorage.getItem('token')
-
-
-    if (token) {
-      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
+    setAcessToken(localStorage.getItem('token'))
+    if (acessToken) {
+      api.defaults.headers.Authorization = `Bearer ${JSON.parse(acessToken)}`
       setAuthenticated(true)
+      console.log(acessToken)
     }
-
     setLoading(false)
   }, [])
 
   async function register(user: object) {
-
-    let msgText = 'Cadastro realizado com sucesso!'
-
-    let msgType = 'success'
-
     try {
-
       const data = await api.post('/api/users', user).then((response) => {
         return response.data
       })
@@ -48,30 +41,19 @@ export default function useAuth() {
         }
       }
     } catch (error) {
-      // tratar erro
-      // msgText = error.response.data.message
       window.alert('Usuário já cadastrado!')
     }
   }
 
   async function login(user: object) {
-    let msgText = 'Login realizado com sucesso!'
-    let msgType = 'success'
     try {
-      const data = await api.post('/api/auth/sessions', user).then((response) => {
-        return response.data
-      })
-
-
+      const data = await api.post('/api/auth/sessions', user)
+        .then(res => res.data)
+      console.log(data)
       await authUser(data)
-
     } catch (error: unknown) {
-      // tratar erro
-      // msgText = error.response.data.message
-      msgType = 'error'
       console.log(error)
     }
-    // setFlashMessage(msgText, msgType)
   }
 
   async function verifyUser(user: {
@@ -124,40 +106,52 @@ export default function useAuth() {
   async function createUser(data: UserData) {
     if (data) {
       setAuthenticated(false)
-      // localStorage.setItem('token', JSON.stringify(data.token))
       history(`/verify/${data}`)
     } else {
       console.log('error')
     }
   }
 
+  async function getUser() {
+    try {
+      const user = await api.get('/api/users/me')
+        .then(res => { return res.data })
+      return user
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async function authUser(data: UserData) {
     if (data) {
       try {
-        setAuthenticated(true)
         localStorage.setItem('token', JSON.stringify(data.accessToken))
-        history(`/home/${data.user}`)
+        setAuthenticated(true)
+        const user = await getUser()
+        setUserSession(user)
+        if (userSession) {
+          console.log('user: ', userSession)
+          history(`/home/${userSession._id}`)
+        } else {
+          console.log('Erro')
+        }
       } catch (error) {
         console.log(error)
       }
-
     } else {
       console.log('Erro de autenticação')
     }
   }
 
   function logout() {
-    const msgText = 'Logout realizado com sucesso!'
-    const msgType = 'success'
 
     setAuthenticated(false)
 
     localStorage.removeItem('token')
 
-    api.defaults.headers.Authorization = ''
+    api.defaults.headers.Authorization = null
 
     history('/')
-    // setFlashMessage(msgText, msgType)
   }
 
   return { authenticated, loading, register, login, logout, verifyUser, verifyEmail, verifyEmailCode }
