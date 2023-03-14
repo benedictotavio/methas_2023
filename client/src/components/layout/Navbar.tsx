@@ -2,13 +2,12 @@ import styles from './Navbar.module.css'
 import { BsHouseDoor } from 'react-icons/bs'
 import { SlUser, SlSettings, SlLogout } from 'react-icons/sl'
 import { Link } from 'react-router-dom'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { Context } from '../../context/UserContext'
 
 const Navbar = () => {
 
-    const { logout } = useContext(Context)
-    const { authenticated } = useContext(Context)
+    const { logout, authenticated } = useContext(Context)
 
     const handleExit = (e: { preventDefault: () => void }) => {
         e.preventDefault()

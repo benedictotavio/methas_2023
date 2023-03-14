@@ -29,7 +29,8 @@ export interface IContext {
   }, endpoint: {
     id?: string | undefined;
     verifyCode: string;
-  }) => Promise<void>
+  }) => Promise<void>,
+  getUser: () => Promise<any>
 }
 
 type IUserContextProvider = {
@@ -40,10 +41,10 @@ const Context = createContext({} as IContext);
 
 function UserProvider({ children }: IUserContextProvider) {
 
-  const { authenticated, loading, register, login, logout, verifyUser, verifyEmail, verifyEmailCode } = useAuth();
+  const { authenticated, loading, register, login, logout, verifyUser, verifyEmail, verifyEmailCode, getUser } = useAuth();
 
   return (
-    <Context.Provider value={{ loading, authenticated, register, login, logout, verifyUser, verifyEmail, verifyEmailCode }}>
+    <Context.Provider value={{ loading, authenticated, register, login, logout, verifyUser, verifyEmail, verifyEmailCode, getUser }}>
       {children}
     </Context.Provider>
   );

@@ -19,6 +19,8 @@ export async function createSessionHandler(
 
   const user = await findUserByEmail(email);
 
+  const id = user?._id
+
   if (!user) {
     return res.status(402).send(user);
   }
@@ -42,7 +44,8 @@ export async function createSessionHandler(
   // send the tokens
   return res.send({
     accessToken,
-    refreshToken
+    refreshToken,
+    id
   });
 }
 

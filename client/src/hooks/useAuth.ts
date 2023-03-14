@@ -6,7 +6,8 @@ export interface UserData {
   data: void,
   token: string,
   accessToken: string,
-  user: string
+  user: string,
+  id?: string
 }
 
 export default function useAuth() {
@@ -22,7 +23,10 @@ export default function useAuth() {
     if (acessToken) {
       api.defaults.headers.Authorization = `Bearer ${JSON.parse(acessToken)}`
       setAuthenticated(true)
-      console.log(acessToken)
+      console.log('acessToken: ', acessToken)
+    }
+    if (userSession === undefined) {
+      getUser()
     }
     setLoading(false)
   }, [])
@@ -114,8 +118,9 @@ export default function useAuth() {
 
   async function getUser() {
     try {
-      const user = await api.get('/api/users/me')
-        .then(res => { return res.data })
+      const user = api.get('/api/users/me')
+        .then(res => res.data)
+        .catch(err => err)
       return user
     } catch (error) {
       console.log(error)
@@ -124,16 +129,20 @@ export default function useAuth() {
 
   async function authUser(data: UserData) {
     if (data) {
+      const user = await getUser()
+      setUserSession(user)
+      console.log('User: ', userSession)
+      localStorage.setItem('token', JSON.stringify(data.accessToken))
       try {
-        localStorage.setItem('token', JSON.stringify(data.accessToken))
         setAuthenticated(true)
-        const user = await getUser()
-        setUserSession(user)
-        if (userSession) {
+        if (userSession._id) {
           console.log('user: ', userSession)
           history(`/home/${userSession._id}`)
+        } else if (data.id) {
+          setAuthenticated(true)
+          history(`/home/${data.id}`)
         } else {
-          console.log('Erro')
+          window.alert('Erro de autenticação!')
         }
       } catch (error) {
         console.log(error)
@@ -154,5 +163,5 @@ export default function useAuth() {
     history('/')
   }
 
-  return { authenticated, loading, register, login, logout, verifyUser, verifyEmail, verifyEmailCode }
+  return { authenticated, loading, register, login, logout, verifyUser, verifyEmail, verifyEmailCode, getUser }
 }

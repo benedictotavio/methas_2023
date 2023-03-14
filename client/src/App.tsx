@@ -10,6 +10,7 @@ import Register from './pages/Register'
 import { Verification } from './pages/Verification';
 import ForgotPassword from './pages/ForgotPassword';
 import { ForgotPasswordEmail } from './pages/ForgotPasswordEmail';
+import User from './pages/User';
 
 /* contexts */
 
@@ -24,6 +25,7 @@ function App() {
               <Route path='/home/:id' element={<Home />} />
               <Route path='/register' element={<Register />} />
               <Route path='/config' element={<Settings />} />
+              <Route path='/user' element={<User />} />
               <Route path='/forgot' element={<ForgotPasswordEmail />} />
               <Route path='/forgot/:id' element={<ForgotPassword />} />
               <Route path='/verify/:id' element={<Verification />} />
