@@ -47,7 +47,7 @@ const Card = ({ text, icon, category, colorIcon }: ICardProps) => {
         setIsOpen(false);
     }
 
-    const { allMetha, saveMetha, doneMetha, notDoneMetha, update } = useContext(MethaContext)
+    const { allMetha, saveMetha, update } = useContext(MethaContext)
 
     useEffect(() => {
         getAllMetha(id)

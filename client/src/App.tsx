@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import './App.css';
-import { UserProvider } from './context/UserContext';
+import { Context, UserProvider } from './context/UserContext';
 import { MethaProvider } from './context/MethaContext';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -11,6 +11,10 @@ import { Verification } from './pages/Verification';
 import ForgotPassword from './pages/ForgotPassword';
 import { ForgotPasswordEmail } from './pages/ForgotPasswordEmail';
 import User from './pages/User';
+import ProtectedRoute from './utils/privateRoute';
+import { useContext } from 'react';
+import PrivateRoute from './utils/privateRoute';
+import Initial from './pages/Initial';
 
 /* contexts */
 
@@ -21,8 +25,9 @@ function App() {
         <UserProvider>
           <MethaProvider>
             <Routes>
-              <Route path='/' element={<Login />} />
-              <Route path='/home/:id' element={<Home />} />
+              <Route path='/' element={<Initial />} />
+              <Route path='/login' element={<Login />} />
+              <Route path='/home' element={<PrivateRoute component={Home} />} />
               <Route path='/register' element={<Register />} />
               <Route path='/config' element={<Settings />} />
               <Route path='/user' element={<User />} />

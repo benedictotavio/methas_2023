@@ -2,13 +2,15 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../utils/api'
 
+
 export interface UserData {
   data: void,
-  token: string,
   accessToken: string,
   user: string,
   id?: string
 }
+
+const URL = 'http://localhost:3030'
 
 export default function useAuth() {
 
@@ -20,16 +22,16 @@ export default function useAuth() {
 
   useEffect(() => {
     setAcessToken(localStorage.getItem('token'))
+    console.log(acessToken)
     if (acessToken) {
       api.defaults.headers.Authorization = `Bearer ${JSON.parse(acessToken)}`
       setAuthenticated(true)
       console.log('acessToken: ', acessToken)
     }
-    if (userSession === undefined) {
-      getUser()
-    }
     setLoading(false)
   }, [])
+
+  console.log(authenticated)
 
   async function register(user: object) {
     try {
@@ -51,12 +53,20 @@ export default function useAuth() {
 
   async function login(user: object) {
     try {
-      const data = await api.post('/api/auth/sessions', user)
-        .then(res => res.data)
-      console.log(data)
-      await authUser(data)
+      const data = await fetch(URL + '/api/auth/sessions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+      }).then(res => res.json())
+      if (data.accessToken) {
+        await authUser(data)
+      } else {
+        window.alert('Token invalido!')
+      }
     } catch (error: unknown) {
-      console.log(error)
+      console.log('Erro de autenticação!')
     }
   }
 
@@ -129,24 +139,12 @@ export default function useAuth() {
 
   async function authUser(data: UserData) {
     if (data) {
+      setAuthenticated(true)
       const user = await getUser()
       setUserSession(user)
-      console.log('User: ', userSession)
       localStorage.setItem('token', JSON.stringify(data.accessToken))
-      try {
-        setAuthenticated(true)
-        if (userSession._id) {
-          console.log('user: ', userSession)
-          history(`/home/${userSession._id}`)
-        } else if (data.id) {
-          setAuthenticated(true)
-          history(`/home/${data.id}`)
-        } else {
-          window.alert('Erro de autenticação!')
-        }
-      } catch (error) {
-        console.log(error)
-      }
+      console.log('User: ', userSession)
+      history('/home')
     } else {
       console.log('Erro de autenticação')
     }
