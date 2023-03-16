@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import jwt_decode from "jwt-decode";
 import api from '../utils/api'
 
 export interface UserData {
@@ -11,31 +12,27 @@ export interface UserData {
 
 export default function useAuth() {
 
-  const [authenticated, setAuthenticated] = useState(false)
+  const [authenticated, setAuthenticated] = useState(() => localStorage.getItem('token') ? true : false)
+  const [userSession, setUserSession] = useState({})
+  const [authToken, setAuthToken] = useState(() => localStorage.getItem('token') ? JSON.stringify(localStorage.getItem('token')) : null)
   const [loading, setLoading] = useState(true)
   const history = useNavigate()
 
+  const getUser = async () => await api.get('/api/users/me').then(res => setUserSession(res.data)).catch(err => console.log(err))
+
   useEffect(() => {
-
-    const token = localStorage.getItem('token')
-
-
-    if (token) {
-      api.defaults.headers.Authorization = `Bearer ${JSON.parse(token)}`
+    setAuthToken(localStorage.getItem('token'))
+    if (authToken) {
+      api.defaults.headers.Authorization = `Bearer ${JSON.parse(authToken)}`
       setAuthenticated(true)
+      getUser()
     }
 
     setLoading(false)
-  }, [])
+  }, [authToken, loading])
 
   async function register(user: object) {
-
-    let msgText = 'Cadastro realizado com sucesso!'
-
-    let msgType = 'success'
-
     try {
-
       const data = await api.post('/api/users', user).then((response) => {
         return response.data
       })
@@ -55,20 +52,12 @@ export default function useAuth() {
   }
 
   async function login(user: object) {
-    let msgText = 'Login realizado com sucesso!'
-    let msgType = 'success'
     try {
       const data = await api.post('/api/auth/sessions', user).then((response) => {
         return response.data
       })
-
-
       await authUser(data)
-
     } catch (error: unknown) {
-      // tratar erro
-      // msgText = error.response.data.message
-      msgType = 'error'
       console.log(error)
     }
     // setFlashMessage(msgText, msgType)
@@ -136,29 +125,21 @@ export default function useAuth() {
       try {
         setAuthenticated(true)
         localStorage.setItem('token', JSON.stringify(data.accessToken))
-        history(`/home/${data.user}`)
+        console.log('User:', userSession)
+        history(`/home`)
       } catch (error) {
         console.log(error)
       }
-
     } else {
       console.log('Erro de autenticação')
     }
   }
 
   function logout() {
-    const msgText = 'Logout realizado com sucesso!'
-    const msgType = 'success'
-
     setAuthenticated(false)
-
     localStorage.removeItem('token')
-
     api.defaults.headers.Authorization = ''
-
     history('/')
-    // setFlashMessage(msgText, msgType)
   }
-
   return { authenticated, loading, register, login, logout, verifyUser, verifyEmail, verifyEmailCode }
 }

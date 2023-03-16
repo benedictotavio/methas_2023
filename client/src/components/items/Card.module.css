@@ -94,7 +94,7 @@
 .card .box .content h3 {
   font-size: 1.8rem;
   color: #fff;
-  z-index: 1;
+  z-index: -1;
   transition: 0.5s;
   margin-bottom: 15px;
 }
@@ -103,7 +103,7 @@
   font-size: 1rem;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.9);
-  z-index: 1;
+  z-index: -1;
   transition: 0.5s;
 }
 
