@@ -26,11 +26,9 @@ export async function createUserHandler(
 
         const user = await createUser(body);
 
-        console.log(user)
-
         await sendEmail({
             to: user.email,
-            from: "test@example.com",
+            from: "methas_2023@email.com",
             subject: "Verify your email",
             text: `Código de verificação(copie e cole o código no site Methas): ${user.verificationCode}`,
         });
