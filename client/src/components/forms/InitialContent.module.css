@@ -1,0 +1,26 @@
+.initial {
+    text-align: center;
+    margin-top: 25%;
+}
+
+.initial_btn {
+    min-height: 10vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.initial_btn a {
+    text-decoration: none;
+    background-color: black;
+    color: azure;
+    padding: 15px;
+    border-radius: 15px;
+    transition: .45s;
+}
+
+.initial_btn a:hover{
+    background-color: azure;
+    color: black;
+    transform: scale(1.2);
+}
